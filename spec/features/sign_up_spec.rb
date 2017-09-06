@@ -1,13 +1,25 @@
 require 'rails_helper'
 
-feature 'vendor registers for site' do
+feature 'Vendor onboards for site' do
 	
-	scenario "vendor registers" do
+	scenario "by registering" do
 		visit root_path
 		click_link "Sign up"
 		expect(page).to have_text("Begin accepting payments")
 		fill_in_registration_fields
 		expect(page).to have_content("Welcome! You have signed up successfully.")
+	end
+
+	scenario "by connecting with Stripe" do
+		visit root_path
+		click_link "Sign up"
+		expect(page).to have_text("Begin accepting payments")
+		fill_in_registration_fields
+		expect(page).to have_content("Welcome! You have signed up successfully.")
+        click_link "CONNECT TO STRIPE"
+		expect(page).to have_content "Congrats on connecting your Stripe account!"
+		vendor = Vendor.last
+		expect(vendor.stripe_user_id).not_to eq nil
 	end
 
 	def fill_in_registration_fields

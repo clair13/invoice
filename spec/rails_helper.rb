@@ -11,6 +11,19 @@
 
   ActiveRecord::Migration.maintain_test_schema!
 
+  OmniAuth.config.test_mode = true
+
+  OmniAuth.config.mock_auth[:stripe_connect] = OmniAuth::AuthHash.new({
+    provider: "stripe"
+    uid: "12345"
+    credentials: {
+      token: "123231231"
+    },
+    info: {
+      stripe_publihable_key: ""
+    }
+    })
+
   RSpec.configure do |config|
     config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
